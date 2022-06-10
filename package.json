@@ -1,6 +1,6 @@
 {
   "name": "jsbc",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "js base components",
   "main": "dist/jsbc.js",
   "private": false,
@@ -64,5 +64,8 @@
     "component"
   ],
   "author": "seabedfish",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Promise-W/jsbc"
+  }
 }

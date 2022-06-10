@@ -50,14 +50,14 @@ npm run build:vue
 npm publish
 ```
 
-注册( ***npm i js-base-components*** )
+注册( ***npm i jsbc*** )
 ```
 // 全局注册组件
-import 'js-base-components/dist/css/js-base-components.css'
-import JSBC from 'js-base-components'
+import 'jsbc/dist/css/js-base-components.css'
+import JSBC from 'jsbc'
 Vue.use(JSBC)
 
 // 局部注册组件
-import 'js-base-components/dist/css/js-base-components.css'
-import { ListTable } from 'js-base-components'
+import 'jsbc/dist/css/js-base-components.css'
+import { ListTable } from 'jsbc'
 ```

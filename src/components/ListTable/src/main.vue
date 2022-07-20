@@ -208,7 +208,7 @@ export default {
         viewBtnIcon: 'el-icon-view',
         refreshBtn: true,
         refreshBtnIcon: 'el-icon-refresh',
-        searchBtn: true,
+        searchBtn: false,
         searchBtnIcon: 'el-icon-search',
         addBtn: true,
         addBtnText: '',

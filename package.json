@@ -34,7 +34,7 @@
     "deepmerge": "^4.2.2",
     "element-ui": "^2.15.8",
     "highlight.js": "^11.5.1",
-    "node-sass": "^7.0.1",
+    "node-sass": "^4.0.1",
     "postcss": "^8.4.13",
     "rollup": "^2.68.0",
     "rollup-plugin-css-only": "^3.1.0",

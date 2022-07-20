@@ -60,7 +60,8 @@
     "core-js": "3",
     "js-cookie": "^3.0.1",
     "require.js": "^1.0.0",
-    "vue": "2.6.14"
+    "vue": "2.6.14",
+    "vue-server-renderer": "2.6.14"
   },
   "keywords": [
     "js",

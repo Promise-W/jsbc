@@ -298,7 +298,7 @@
         searchOption: {
           searchLabelWidth: 80,
           searchSpan: 5,
-          searchMenuSpan: 8, // 按钮容器的宽度默认为6
+          searchMenuSpan: 9, // 按钮容器的宽度默认为6
         },
         filterList: [
           {

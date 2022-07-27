@@ -27,6 +27,14 @@
           @click="tableRefresh()"
         />
         <el-button
+          v-if="options.colShowHideBtn"
+          class="table-btn"
+          size="small"
+          circle
+          :icon="options.colShowHideBtnIcon || ''"
+          @click="handleColsShowHide()"
+        />
+        <el-button
           v-if="options.searchBtn"
           class="table-btn"
           size="small"
@@ -149,6 +157,17 @@
         <el-button @click="aevDialogVisible = false">取消</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog 
+      v-if="colsShowHideDialogVisible"
+      title="列显隐"
+      class="colsShowHideDialog"
+      :visible.sync="colsShowHideDialogVisible"
+    >
+      <el-checkbox-group v-model="colsShowHideSelected">
+          <el-checkbox v-for="item in options.column" :label="item.label" :key="item.label" />    
+      </el-checkbox-group>
+    </el-dialog>
   </div>
 </template>
 
@@ -208,6 +227,8 @@ export default {
         viewBtnIcon: 'el-icon-view',
         refreshBtn: true,
         refreshBtnIcon: 'el-icon-refresh',
+        colShowHideBtn: true,
+        colShowHideBtnIcon: 'el-icon-s-operation',
         searchBtn: false,
         searchBtnIcon: 'el-icon-search',
         addBtn: true,
@@ -227,7 +248,11 @@ export default {
       aevType: null,
       aevTitle: null,
       aevData: null,
-      aevFormRules: {}
+      aevFormRules: {},
+
+      // 列显隐
+      colsShowHideSelected: [],
+      colsShowHideDialogVisible: false,
     }
   },
   watch: {
@@ -251,9 +276,22 @@ export default {
         }
         // 函数 要给每种btn包一层func判断，暂时不弄，可以通过menu插槽来自定义判断
       }
+    },
+    colsShowHideSelected(newArrayVal) {
+      const noSelected = this.options.column.filter(item => !newArrayVal.includes(item.label)).map(item => item.label);
+      this.options.column.forEach(item => {
+        item.hide = noSelected.includes(item.label)
+        this.$nextTick(() => {
+          this.$refs.listTable.doLayout()
+        })
+      })
     }
   },
   created() {
+    (this.option.column || []).forEach(col => {
+      if (!col.hide) this.colsShowHideSelected.push(col.label) // 列 显隐
+    })
+    
     if (this.scrollPartHeightOffset) {
       this.tableHeight = document.body.clientHeight - (this.scrollPartHeightOffset || 0)
     }
@@ -271,6 +309,9 @@ export default {
     },
     tableRefresh() {
       this.$emit('refresh-change', this.page)
+    },
+    handleColsShowHide() {
+      this.colsShowHideDialogVisible = true
     },
     handleCurrentChange(pageVal) {
       this.$emit('current-change', pageVal.page)

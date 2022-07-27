@@ -435,6 +435,8 @@
 | selection    | 是否显示 checkbox    | boolean    | true,false    | false   |
 | refreshBtn   | 刷新按钮    | boolean    | true,false  | true   |
 | refreshBtnIcon | 刷新按钮图标 | string  | -  | el-icon-refresh   |
+| colShowHideBtn   | 列显示隐藏按钮    | boolean    | true,false  | true   |
+| colShowHideBtnIcon | 列显示隐藏按钮图标 | string  | -  | el-icon-s-operation   |
 | addBtn   | 新增按钮    | boolean    | true,false  | false   |
 | addBtnText   | 新增按钮名字  | string  | -  | 新增   |
 | addBtnIcon   | 新增按钮图标 | string  | -  | el-icon-plus   |

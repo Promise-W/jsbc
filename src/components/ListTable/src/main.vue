@@ -49,7 +49,8 @@
       class="list-table"
       v-loading="tableLoading"
       :data="data"
-      :max-height="tableHeight"
+      :height="height"
+      :max-height="maxHeight"
       :border="options.border"
       @row-click="rowClick"
       @selection-change="handleSelectionChange"
@@ -57,8 +58,15 @@
       <el-table-column v-if="options.selection" type="selection" width="60" />
 
       <el-table-column v-if="options.index" :label="options.indexLabel || '序号'" fixed="left" width="60">
+        <template #header="scope">
+            <slot name="indexHeader" v-bind="scope">
+              {{ column.label }}
+            </slot>
+        </template>
         <template #default="scope">
-          <span :rowID="scope.row.id">{{ (page.currentPage - 1) * page.pageSize + scope.$index + 1 }}</span>
+          <slot name="index" v-bind="scope">
+            <span :rowID="scope.row.id">{{ (page.currentPage - 1) * page.pageSize + scope.$index + 1 }}</span>
+          </slot>
         </template>
       </el-table-column>
 
@@ -69,11 +77,22 @@
           :prop="column.prop"
           :fixed="column.fixed"
           :label="column.label"
-          :class-name="`${column.prop}-row`"
+          :class-name="`${column.prop}-row ${column.className || ''}`"
           :width="column.width || 'auto'"
-          :min-width="column.minWidth || 160"
+          :min-width="column.minWidth"
           :sortable="!!column.sortable"
+          :row-key="column.rowKey || 'id'"
+          :show-overflow-tooltip="column.overHidden || false"
+          :align="column.align || options.align"
+          :header-align="column.headerAlign || options.headerAlign"
         >
+          <template #header>
+            <slot v-if="column.headerslot" :name="column.prop+'Header'" :index="index" v-bind="{ column }">
+              {{ column.label }}
+            </slot>
+            <div v-else>{{ column.label }}</div>
+          </template>
+          
           <template #default="scope">
             <slot v-if="column.slot" :name="column.prop" :index="index" v-bind="scope" />
             <div v-else class="column-item" v-html="columnBuilder(scope.row, column)" />
@@ -165,7 +184,9 @@
       :visible.sync="colsShowHideDialogVisible"
     >
       <el-checkbox-group v-model="colsShowHideSelected">
-          <el-checkbox v-for="item in options.column" :label="item.label" :key="item.label" />    
+        <template v-for="item in options.column">
+          <el-checkbox v-if="item.showColumn !== false" :key="item.label" :label="item.label" style="margin-bottom: 15px" />
+        </template>
       </el-checkbox-group>
     </el-dialog>
   </div>
@@ -208,18 +229,23 @@ export default {
         pageSize: 10 // 页大小
       })
     },
-    scrollPartHeightOffset: { // 表格偏移量
-      type: Number,
-      default: 150
+    height: { // 表格最大高度
+      type: [Number, String],
+      default: null
+    },
+    maxHeight: {
+      type: [Number, String],
+      default: null
     }
   },
   data: function() {
     return {
-      tableHeight: 0,
       options: {
         index: true, // 是否显示 序号
         indexLabel: '序号',
         selection: false, // 行多选
+        align: 'center', // 对齐方式
+        headerAlign: 'center', // 表头对齐方式
         border: true, // 是否显示 table 边框
         menu: true, // 是否显示操作栏
         viewBtn: false,
@@ -292,9 +318,6 @@ export default {
       if (!col.hide) this.colsShowHideSelected.push(col.label) // 列 显隐
     })
     
-    if (this.scrollPartHeightOffset) {
-      this.tableHeight = document.body.clientHeight - (this.scrollPartHeightOffset || 0)
-    }
     this.$emit('on-load', this.page)
   },
   methods: {
@@ -410,6 +433,9 @@ export default {
     },
     rowClick(row, column, event) {
       this.$emit('row-click', row, column, event)
+    },
+    clearSelection() {
+      this.$refs.listTable.clearSelection()
     }
   }
 }

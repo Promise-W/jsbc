@@ -420,7 +420,8 @@
 | permission | btn权限控制    | object    |  { xxBtn: true|false }   |    |
 | page    | 是否显示分页    | object    |     | {total: 0, currentPage:1, pageSize: 10}   |
 | before-open | 新增、查看、编辑弹窗前的钩子函数 | function    |  function   |  function   |
-| scrollPartHeightOffset    | 表格偏移量    | number    | number    | 0    |
+| height    | 表格高度    | string/number    | number    | null    |
+| maxHeight    | 表格最大高度    | string/number    | number    | null    |
 
 </div>
 
@@ -430,6 +431,9 @@
 |     属性名   |    说明   |    类型    |   可选值   |   默认值   | 
 |:----------|:----------|:----------|:----------|:----------|
 | **\*** column   | 列配置项    | array    | []  | []   |
+| align    | 所有列的对齐方式    | string    |   left/center/right  | center     |
+| headerAlign  | 所有表头的对齐方式    | string    | left/center/right    | center     |
+| rowKey  | 行数据的 Key    | Function(row)/String    | -    | id     |
 | index    | 是否显示 序号    | boolean    | true,false  | false   |
 | indexLabel    | 序号名字    | string    | —    | 序号     |
 | selection    | 是否显示 checkbox    | boolean    | true,false    | false   |
@@ -468,6 +472,7 @@
 | row-update | row更新前的钩子函数 | (row,index,done) |
 | row-save | 同上 row-update | (row,index,done) |
 | row-add | row新增前的钩子函数 | (row,done) |
+| clearSelection | 用于多选表格，清空用户的选择 | - |
 
 </div>
 
@@ -490,9 +495,15 @@
 | name      | 列名 |  string | _| _ |
 | prop   | 属性key |  string | _| _ |
 | type   | 属性编辑形式 |  string | input,textarea | input |
+| align    | 对应列的对齐方式    | string   |   left/center/right  | center     |
+| headerAlign  | 对应列表头的对齐方式    | string    | left/center/right    | center  |
+| className    | 列的 className    | string   |   -  | -     |
 | fixed    | 是否固定 |  boolean | true,false | false |
 | hide    | 是否隐藏列 |  boolean | true,false | false |
-| maxlength   | 输入值最大字数 |  number | _ | null |
+| width   | 对应列的最小宽度 |  number | _ | null |
+| minWidth   | 对应列的最小宽度 |  number | _ | null |
+| showColumn | 是否显示在显隐列 只有false才不显示 |  boolean | true,false | true |
+| maxlength   | 新增编辑时输入值最大字数 |  number | _ | null |
 | sortable    | 是否排序 |  boolean | true,false | false |
 | addDisplay    | 新增时 是否显示 |  boolean | true,false | false |
 | addDisabled    | 新增时 是否可编辑 |  boolean | true,false | false |
@@ -500,6 +511,8 @@
 | editDisabled    | 编辑时 是否可编辑 |  boolean | true,false | false |
 | value   | 默认值 |  string | _ |  |
 | rules      | 表单验证规则 |  array | _ |  |
+| slot      | 自定义列插槽 |  boolean | true,false | false |
+| headerslot      | 自定义表头插槽 |  boolean | true,false | false |
 
 </div>
 
@@ -508,7 +521,11 @@
 
 |     name    |    说明   | 
 |:------------|:----------|
-| #[**prop**] | 自定义列的内容，参数为 { row, column, $index } |
+| #index     | 序号列的插槽 |
+| #indexHeader     | 序号列表头的插槽 |
 | default     | 表格列默认的唯一插槽，位于最后一列 |
+| #[**propHeader**] | 自定义列的内容，参数为 { row, column, $index } |
+| #[**prop**] | 自定义列的内容，参数为 { row, column, $index } |
+| #default     | 表格列默认的唯一插槽，位于最后一列 |
 
 </div>

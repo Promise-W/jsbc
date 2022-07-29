@@ -57,10 +57,10 @@
     >
       <el-table-column v-if="options.selection" type="selection" width="60" />
 
-      <el-table-column v-if="options.index" :label="options.indexLabel || '序号'" fixed="left" width="60">
+      <el-table-column v-if="options.index" :label="options.indexLabel || '序号'" fixed="left" :width="options.indexWidth || 60">
         <template #header="scope">
             <slot name="indexHeader" v-bind="scope">
-              {{ column.label }}
+              {{ options.indexLabel || '序号' }}
             </slot>
         </template>
         <template #default="scope">
@@ -243,6 +243,7 @@ export default {
       options: {
         index: true, // 是否显示 序号
         indexLabel: '序号',
+        indexWidth: null, // 序号长度
         selection: false, // 行多选
         align: 'center', // 对齐方式
         headerAlign: 'center', // 表头对齐方式

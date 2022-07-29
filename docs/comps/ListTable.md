@@ -391,7 +391,7 @@
   },
   methods: {
     getList(page) {
-      console.log('page', page)
+      // console.log('page', page)
       this.loading = true
       setTimeout(() => { // ajax || axios
         this.tableData = [
@@ -436,6 +436,7 @@
 | rowKey  | 行数据的 Key    | Function(row)/String    | -    | id     |
 | index    | 是否显示 序号    | boolean    | true,false  | false   |
 | indexLabel    | 序号名字    | string    | —    | 序号     |
+| indexWidth    | 序号长度    | number    | -    | 60     |
 | selection    | 是否显示 checkbox    | boolean    | true,false    | false   |
 | refreshBtn   | 刷新按钮    | boolean    | true,false  | true   |
 | refreshBtnIcon | 刷新按钮图标 | string  | -  | el-icon-refresh   |
